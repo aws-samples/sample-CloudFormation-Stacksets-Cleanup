@@ -445,8 +445,13 @@ Resources:
           def account_state(account_id):
               try:
                   account = org.describe_account(AccountId=account_id)['Account']
-                  state = account.get('State') or account.get('Status') or 'UNKNOWN'
-                  return {'exists': True, 'state': state, 'reason': ''}
+                  status = account.get('Status') or ''
+                  state = account.get('State') or ''
+                  if status == 'SUSPENDED' or state == 'CLOSED':
+                      resolved = 'SUSPENDED'
+                  else:
+                      resolved = status or state or 'UNKNOWN'
+                  return {'exists': True, 'state': resolved, 'reason': ''}
               except ClientError as e:
                   code = e.response.get('Error', {}).get('Code', '')
                   message = e.response.get('Error', {}).get('Message', str(e))
