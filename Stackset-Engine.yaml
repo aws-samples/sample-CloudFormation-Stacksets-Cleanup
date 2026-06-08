@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: >-
-  CloudFormation stackset clean up. Targets only suspended instances in stacksets,
+  CloudFormation stackset clean up(V1.1). Targets only suspended instances in stacksets,
   skips non existing accounts in the org, skips active accounts. for all details, please refer to https://github.com/aws-samples/sample-CloudFormation-Stacksets-Cleanup
 
 Parameters:
@@ -445,8 +445,13 @@ Resources:
           def account_state(account_id):
               try:
                   account = org.describe_account(AccountId=account_id)['Account']
-                  state = account.get('State') or account.get('Status') or 'UNKNOWN'
-                  return {'exists': True, 'state': state, 'reason': ''}
+                  status = account.get('Status') or ''
+                  state = account.get('State') or ''
+                  if status == 'SUSPENDED' or state == 'CLOSED':
+                      resolved = 'SUSPENDED'
+                  else:
+                      resolved = status or state or 'UNKNOWN'
+                  return {'exists': True, 'state': resolved, 'reason': ''}
               except ClientError as e:
                   code = e.response.get('Error', {}).get('Code', '')
                   message = e.response.get('Error', {}).get('Message', str(e))
