@@ -2,7 +2,7 @@
 
 ![IaC](https://img.shields.io/badge/IaC-CloudFormation-orange)
 ![Scale](https://img.shields.io/badge/Scale-Enterprise-red)
-![Version](https://img.shields.io/badge/Version-1.0-blue)
+![Version](https://img.shields.io/badge/Version-1.1-blue)
 
 Automated cleanup solution for AWS CloudFormation StackSets, designed to identify and manage suspended stack instances at enterprise scale.
 

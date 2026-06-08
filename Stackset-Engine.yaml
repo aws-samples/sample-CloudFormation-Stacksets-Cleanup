@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: >-
-  CloudFormation stackset clean up. Targets only suspended instances in stacksets,
+  CloudFormation stackset clean up(V1.1). Targets only suspended instances in stacksets,
   skips non existing accounts in the org, skips active accounts. for all details, please refer to https://github.com/aws-samples/sample-CloudFormation-Stacksets-Cleanup
 
 Parameters:
